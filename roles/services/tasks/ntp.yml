@@ -1,0 +1,50 @@
+---
+- name: Make sure the NTP service is running
+  systemd: state=started name=ntpd
+  become: yes
+  tags:
+    - ntp
+    - services
+
+- name: Check NTP status
+  command: timedatectl show -p NTP --value
+  register: ntpStatusVar
+  changed_when: false
+  tags:
+    - ntp
+    - services
+
+- name: Configure NTP client
+  command: timedatectl set-ntp true
+  when: ntpStatusVar == "yes"
+  become: yes
+  tags:
+    - ntp
+    - services
+
+- name: Add AD NTP to /etc/ntp.conf
+  lineinfile:
+    path: /etc/ntp.conf
+    insertafter: "# Associate to Arch's NTP pool"
+    line: server {{ timeserver }}
+  become: yes
+  tags:
+    - ntp
+    - services
+
+- name: Clean up /etc/ntp.conf
+  lineinfile:
+    path: /etc/ntp.conf
+    state: absent
+    regexp: 'arch\.pool\.ntp\.org'
+  become: yes
+  tags:
+    - ntp
+    - services
+
+- name: Restart the NTP service
+  systemd: state=restarted name=ntpd daemon_reload=yes
+  become: yes
+  tags:
+    - ntp
+    - services

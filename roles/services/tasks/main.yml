@@ -1,0 +1,10 @@
+---
+- name: Install Services
+  pacman:
+    name: '{{ services }}'
+    state: present
+  become: yes
+
+- include: ntp.yml
+- include: autofs.yml
+- include: sshd.yml

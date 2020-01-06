@@ -1,4 +1,12 @@
 ---
+- name: Full system upgrade
+  shell: yes Y | /usr/bin/pacman -Syu
+  become: yes
+
+- name: Clean pacman cache
+  shell: yes Y | /usr/bin/pacman -Scc
+  become: yes
+
 - name: Install Utils
   pacman:
     name: '{{ utils }}'
@@ -14,11 +22,8 @@
   tags:
     - aur
 
-- include: ntp.yml
-- include: pip.yml
 - include: zsh.yml
 - include: bash.yml
-- include: terminator.yml
 
 - name: Creates Workspace directory
   file:
