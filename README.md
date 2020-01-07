@@ -35,13 +35,11 @@ Tags supported:
 | Tag       | Description                                                                                                      |
 |-----------|------------------------------------------------------------------------------------------------------------------|
 | base      | Install Linux util libraries, python-pip, xinput, terminator and zsh                                             |
-| users     | Setup user accounts                                                                                              |
 | printers  | Install printer drivers                                                                                          |
 | browsers  | Install Chrome and chromedriver                                                                                  |
 | dev-tools | Install jq, docker, docker-compose, nodejs, npm, jre8, jre10, maven, clojure, leiningen, sbt, scala, kubernetes, bluemix-cli and hub  |
 | editors   | Install vim, atom, emacs, gimp and Intellij                                                                      |
-| media     | Install Spotify and Peek (GIF Screen recorder)                                                                   |
-| gnome     | Configure the desktop environment                                                                                |
+| media     | Install Spotify and Peek (GIF Screen recorder)                                                                   |                                                                           |
 | aur       | Install Arch User Repository libraries                                                                           |
 
 Example on how to install only browsers:
@@ -51,11 +49,5 @@ ansible-playbook playbook.yml --extra-vars="user_name=USERNAME user_email=EMAIL"
 
 ## TODO
 
-Bluemix setup:
- * enable zsh completion, add the following line in "~/.zshrc":
-   . /usr/local/ibmcloud/autocomplete/zsh_autocomplete
- * IBM Cloud CLI automatically collects data for usage analysis and user experience improvement. To disable the collecting, run "ibmcloud config --usage-stats-collect false"
- * IBM Cloud CLI has a plug-in framework to extend its capability. To install the recommended plug-ins and dependencies, run the install script from http://ibm.biz/install-idt. For additional plug-in details, see https://console.bluemix.net/docs/cli/reference/bluemix_cli/extend_cli.html.
- * Install the container-registry ibmcloud plugin install container-registry -r Bluemix
-   Use 'ibmcloud plugin show container-registry' to show its details.
- * Install the kubernetes CLI tool (ibmcloud ks) : ibmcloud plugin install container-service
+Samba AD client setup:
+ * Join to AD Domain based on https://bit.ly/2N1Nqzs
