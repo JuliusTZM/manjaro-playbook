@@ -26,8 +26,54 @@
     - services
     - samba
 
-- name: Make sure the Samba service is running
-  systemd: state=started name=samba enabled=yes
+- set_fact:
+    content: "{{ lookup('file', '/etc/nsswitch.conf') }}"
+- name: Add SSSD to nsswitch.conf
+  replace:
+    path: /etc/nsswitch.conf
+    regexp: '(\s+){{ item }}: files(\s+.*)?$'
+    replace: '\1{{ item }}: files sss\2'
+    backup: yes
+  with_items:
+     - passwd
+     - group
+     - shadow
+     - hosts
+  become: yes
+  when: not content|regex_search('.*'+'sss'+'.*'|string)
+  tags:
+    - services
+    - samba
+
+- name: Add Sudoers with SSSD to nsswitch.conf
+  lineinfile:
+    path: /etc/nsswitch.conf
+    insertafter: '^shadow:'
+    line: 'sudoers: files sss'
+    state: present
+    backup: yes
+  become: yes
+  when: not content|regex_search('.*'+'sss'+'.*'|string)
+  tags:
+    - services
+    - samba
+
+- name: Join system to AD
+  expect:
+    command: /bin/bash -c "/usr/bin/net ads join -U Administrator"
+    responses:
+      (.*)Enter Administrator(.)s password: "{{ domain_admin_password }}"
+  become: yes
+  tags:
+    - services
+    - samba
+
+- name: Make sure the Samba services are running
+  systemd: state=started name={{ item }} enabled=yes
+  with_items:
+     - smb
+     - nmb
+     - winbind
   become: yes
   tags:
     - services

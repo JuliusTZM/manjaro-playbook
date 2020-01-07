@@ -56,12 +56,14 @@ utils:
     - tree
     - xclip
     - xorg-xinput
+    - python-pexpect
 
 services:
     - autofs
     - bind-tools
     - pam-krb5
     - samba
+    - sssd
 
 utils_aur:
     - git-extras

@@ -8,3 +8,9 @@
 #  - { role: developer-tools, tags: ['dev-tools'] }
 #  - { role: editors,         tags: ['editors'] }
 #  - { role: media,           tags: ['media'] }
+  vars_prompt:
+    - name: domain_admin_password
+      prompt: "Enter your password for the domain aministrator"
+      private: yes
+  vars:
+    password: "{{ domain_admin_password }}"
