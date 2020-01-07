@@ -1,4 +1,4 @@
-[Global]
+[global]
     netbios name = {{ ansible_hostname|upper }}
     workgroup = {{ domain.split(".")[0]|upper }}
     realm = {{ domain|upper }}
