@@ -1,4 +1,6 @@
 timeserver: bananapi.raczek.lan
+pdc: bananapi
+domain: raczek.lan
 
 browsers:
     - chromium

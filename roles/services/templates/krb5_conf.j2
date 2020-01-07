@@ -1,0 +1,37 @@
+[libdefaults]
+    default_realm	= 	{{ domain|upper }}
+    clockskew		= 	300
+    ticket_lifetime	=	1d
+    forwardable		=	true
+    proxiable		=	true
+    dns_lookup_realm	=	true
+    dns_lookup_kdc	=	true
+
+[realms]
+    {{ domain|upper }}	= {
+    kdc			=	{{ pdc|upper }}.{{ domain|upper }}
+    admin_server	=	{{ pdc|upper }}.{{ domain|upper }}
+    default_domain	=	{{ domain|upper }}
+    }
+    
+[domain_realm]
+    .kerberos.server	=	{{ domain|upper }}
+    .{{ domain }}		=	{{ domain|upper }}
+    {{ domain }}		=	{{ domain|upper }}
+    {{ domain.split(".")[0] }}	=	{{ domain|upper }}
+
+[appdefaults]
+    pam = {
+    ticket_lifetime	=	1d
+    renew_lifetime	=	1d
+    forwardable		=	true
+    proxiable		=	false
+    retain_after_close 	=	false
+    minimum_uid		=	0
+    debug		=	false
+    }
+
+[logging]
+    default		=	FILE:/var/log/krb5libs.log
+    kdc			=	FILE:/var/log/kdc.log
+    admin_server	=	FILE:/var/log/kadmind.log

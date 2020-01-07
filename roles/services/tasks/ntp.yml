@@ -1,6 +1,6 @@
 ---
 - name: Make sure the NTP service is running
-  systemd: state=started name=ntpd
+  systemd: state=started name=ntpd enabled=yes
   become: yes
   tags:
     - ntp

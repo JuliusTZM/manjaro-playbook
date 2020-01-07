@@ -1,6 +1,6 @@
 ---
 - name: Make sure the SSH service is running
-  systemd: state=started name=sshd
+  systemd: state=started name=sshd enabled=yes
   become: yes
   tags:
     - services

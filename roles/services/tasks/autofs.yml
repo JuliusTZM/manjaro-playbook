@@ -1,6 +1,6 @@
 ---
 - name: Make sure the AutoFS service is running
-  systemd: state=started name=autofs
+  systemd: state=started name=autofs enabled=yes
   become: yes
   tags:
     - services
