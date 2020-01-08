@@ -31,3 +31,16 @@
     state: directory
   become_user: '{{ user_name }}'
   become: yes
+
+- name: Add wheel group to sudoers
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%wheel\s'
+    line: '%wheel ALL=(ALL) ALL'
+
+- name: Add the user to wheel group
+  user:
+    name: {{ user_name }}
+    groups: wheel
+    append: yes
