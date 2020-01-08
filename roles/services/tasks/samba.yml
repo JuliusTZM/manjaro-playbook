@@ -35,10 +35,10 @@
     replace: '\1{{ item }}: files sss\2'
     backup: yes
   with_items:
-     - passwd
-     - group
-     - shadow
-     - hosts
+    - passwd
+    - group
+    - shadow
+    - hosts
   become: yes
   when: not content|regex_search('.*'+'sss'+'.*'|string)
   tags:
@@ -63,6 +63,22 @@
     command: /bin/bash -c "/usr/bin/net ads join -U Administrator"
     responses:
       (.*)Enter Administrator(.)s password: "{{ domain_admin_password }}"
+  become: yes
+  tags:
+    - services
+    - samba
+
+- name: Copy PAM modules to /etc/pam.d
+  src: {{ item }}
+  dest: /etc/pam.d/{{ item }}
+  owner: root
+  group: root
+  mode: 0644
+  with_items:
+    - su
+    - su-l
+    - system-auth
+    - system-login
   become: yes
   tags:
     - services

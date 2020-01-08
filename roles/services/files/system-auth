@@ -1,27 +1,27 @@
 #%PAM-1.0
 
-auth    [success=1 default=ignore]    pam_localuser.so
-auth    [success=2 default=die]       pam_sss.so
-auth      required  pam_unix.so       try_first_pass nullok
-auth     requisite  pam_deny.so
-auth      optional  pam_permit.so
-auth      required  pam_env.so
+auth		[success=1 default=ignore]	pam_localuser.so
+auth		[success=2 default=die]		pam_sss.so
+auth		required			pam_unix.so		try_first_pass nullok
+auth		requisite			pam_deny.so
+auth		optional			pam_permit.so
+auth		required			pam_env.so
 
-account   required  pam_unix.so
-account [success=1 default=ignore]    pam_localuser.so
-account   required  pam_sss.so
-account   optional  pam_permit.so
-account   required  pam_time.so
+account		required			pam_unix.so
+account		[success=1 default=ignore]	pam_localuser.so
+account		required			pam_sss.so
+account		optional			pam_permit.so
+account		required			pam_time.so
 
-password  [success=1 default=ignore]  pam_localuser.so
-password  [success=2 default=die]     pam_sss.so
-password  required  pam_unix.so       try_first_pass nullok sha512 shadow
-password  requisite pam_deny.so
-password  optional  pam_permit.so
+password	[success=1 default=ignore]	pam_localuser.so
+password	[success=2 default=die]		pam_sss.so
+password	required			pam_unix.so		try_first_pass nullok sha512 shadow
+password	requisite			pam_deny.so
+password	optional			pam_permit.so
 
-session   required  pam_limits.so
-session   required  pam_mkhomedir.so skel=/etc/skel/ umask=0077
-session   required  pam_unix.so
-session [success=1 default=ignore]    pam_localuser.so
-session   required  pam_sss.so
-session   optional  pam_permit.so
+session		required			pam_limits.so
+session		required			pam_mkhomedir.so	skel=/etc/skel/ umask=0077
+session		required			pam_unix.so
+session		[success=1 default=ignore]	pam_localuser.so
+session		required			pam_sss.so
+session		optional			pam_permit.so
