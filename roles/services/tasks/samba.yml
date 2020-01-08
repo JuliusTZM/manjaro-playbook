@@ -26,6 +26,18 @@
     - services
     - samba
 
+- name: Creating sssd.conf with respected resources
+  template:
+    src: sssd_conf.j2
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: '0400'
+  become: yes
+  tags:
+    - services
+    - samba
+
 - set_fact:
     content: "{{ lookup('file', '/etc/nsswitch.conf') }}"
 - name: Add SSSD to nsswitch.conf
