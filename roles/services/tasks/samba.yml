@@ -87,6 +87,7 @@
     owner: root
     group: root
     mode: 0644
+    backup: yes
   with_items:
     - su
     - su-l
