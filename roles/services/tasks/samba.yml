@@ -97,13 +97,15 @@
     - services
     - samba
 
-- name: Make sure the Samba services are running
+- name: Make sure the Samba & SSSD services are running
   systemd: state=started name={{ item }} enabled=yes
   with_items:
      - smb
      - nmb
      - winbind
+     - sssd
   become: yes
   tags:
     - services
     - samba
+ 
