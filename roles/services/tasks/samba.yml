@@ -97,6 +97,16 @@
     - services
     - samba
 
+- name: Create keytab file for the AD
+  expect:
+    command: /bin/bash -c "net ads keytab create -U Administrator"
+    responses:
+      (.*)Enter Administrator(.)s password: "{{ domain_admin_password }}"
+  become: yes
+  tags:
+    - services
+    - samba
+
 - name: Make sure the Samba & SSSD services are running
   systemd: state=started name={{ item }} enabled=yes
   with_items:
