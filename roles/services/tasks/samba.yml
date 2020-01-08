@@ -69,11 +69,12 @@
     - samba
 
 - name: Copy PAM modules to /etc/pam.d
-  src: {{ item }}
-  dest: /etc/pam.d/{{ item }}
-  owner: root
-  group: root
-  mode: 0644
+  copy:
+    src: '{{ item }}'
+    dest: /etc/pam.d/'{{ item }}'
+    owner: root
+    group: root
+    mode: 0644
   with_items:
     - su
     - su-l
