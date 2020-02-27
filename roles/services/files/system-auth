@@ -2,7 +2,7 @@
 
 auth		[success=1 default=ignore]	pam_localuser.so
 auth		[success=2 default=die]		pam_sss.so
-auth		required			pam_unix.so		try_first_pass nullok
+auth		[success=1 default=die]		pam_unix.so		try_first_pass nullok
 auth		requisite			pam_deny.so
 auth		optional			pam_permit.so
 auth		required			pam_env.so
@@ -15,7 +15,7 @@ account		required			pam_time.so
 
 password	[success=1 default=ignore]	pam_localuser.so
 password	[success=2 default=die]		pam_sss.so
-password	required			pam_unix.so		try_first_pass nullok sha512 shadow
+password	[success=1 default=die]		pam_unix.so		try_first_pass nullok sha512 shadow
 password	requisite			pam_deny.so
 password	optional			pam_permit.so
 
