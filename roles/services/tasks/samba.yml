@@ -79,6 +79,24 @@
   tags:
     - samba
 
+- name: Creating a Kerberos ticket
+  expect:
+    command: /bin/bash -c "kinit administrator@{{ domain|upper }}"
+    responses:
+      (.*)Password for administrator@{{ domain|upper }}: "{{ domain_admin_password.user_input }}"
+  become: yes
+  tags:
+    - samba
+
+- name: Create keytab file for the AD
+  expect:
+    command: /bin/bash -c "net ads keytab create -U Administrator"
+    responses:
+      (.*)Enter Administrator(.)s password: "{{ domain_admin_password.user_input }}"
+  become: yes
+  tags:
+    - samba
+
 - name: Copy PAM modules to /etc/pam.d
   copy:
     src: '{{ item }}'
@@ -92,15 +110,6 @@
     - su-l
     - system-auth
     - system-login
-  become: yes
-  tags:
-    - samba
-
-- name: Create keytab file for the AD
-  expect:
-    command: /bin/bash -c "net ads keytab create -U Administrator"
-    responses:
-      (.*)Enter Administrator(.)s password: "{{ domain_admin_password.user_input }}"
   become: yes
   tags:
     - samba
