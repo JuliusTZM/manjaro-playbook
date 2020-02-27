@@ -5,7 +5,7 @@
     state: present
   become: yes
 
-#- include: ntp.yml
-#- include: autofs.yml
-#- include: sshd.yml
+- include: ntp.yml
+- include: autofs.yml
+- include: sshd.yml
 - include: samba.yml
