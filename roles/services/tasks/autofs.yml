@@ -3,5 +3,4 @@
   systemd: state=started name=autofs enabled=yes
   become: yes
   tags:
-    - services
     - autofs

@@ -2,15 +2,9 @@
 - hosts: localhost
   roles:
   - { role: base,            tags: ['base'] }
-  - { role: services,        tags: ['services', 'autofs', 'ntp', 'sshd', 'samba'] }
+  - { role: services,        tags: ['services'] }
 #  - { role: printers,        tags: ['printers'] }
 #  - { role: browsers,        tags: ['browsers'] }
 #  - { role: developer-tools, tags: ['dev-tools'] }
 #  - { role: editors,         tags: ['editors'] }
 #  - { role: media,           tags: ['media'] }
-  vars_prompt:
-    - name: domain_admin_password
-      prompt: "Enter your password for the domain aministrator"
-      private: yes
-  vars:
-    password: "{{ domain_admin_password }}"

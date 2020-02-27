@@ -3,5 +3,4 @@
   systemd: state=started name=sshd enabled=yes
   become: yes
   tags:
-    - services
     - sshd

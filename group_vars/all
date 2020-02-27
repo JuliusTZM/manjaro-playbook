@@ -72,6 +72,7 @@ utils_aur:
 zsh_plugins:
     - archlinux
     - colored-man-pages
+    - common-aliases
     - docker
     - docker-compose
     - dotenv

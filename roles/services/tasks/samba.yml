@@ -1,11 +1,16 @@
 ---
+- name: Set password for the domain administrator
+  pause:
+    prompt: "Enter your password for the domain aministrator"
+    echo: no
+  register: domain_admin_password
+
 - name: Creating smb.conf with respected resources
   template:
     src: smb_conf.j2
     dest: /etc/samba/smb.conf
   become: yes
   tags:
-    - services
     - samba
 
 - name: Creating krb5.conf with respected resources
@@ -14,7 +19,6 @@
     dest: /etc/krb5.conf
   become: yes
   tags:
-    - services
     - samba
 
 - name: Creating pam_winbind.conf with respected resources
@@ -23,7 +27,6 @@
     dest: /etc/security/pam_winbind.conf
   become: yes
   tags:
-    - services
     - samba
 
 - name: Creating sssd.conf with respected resources
@@ -35,7 +38,6 @@
     mode: '0400'
   become: yes
   tags:
-    - services
     - samba
 
 - set_fact:
@@ -54,7 +56,6 @@
   become: yes
   when: not content|regex_search('.*'+'sss'+'.*'|string)
   tags:
-    - services
     - samba
 
 - name: Add Sudoers with SSSD to nsswitch.conf
@@ -67,17 +68,15 @@
   become: yes
   when: not content|regex_search('.*'+'sss'+'.*'|string)
   tags:
-    - services
     - samba
 
 - name: Join system to AD
   expect:
     command: /bin/bash -c "/usr/bin/net ads join -U Administrator"
     responses:
-      (.*)Enter Administrator(.)s password: "{{ domain_admin_password }}"
+      (.*)Enter Administrator(.)s password: "{{ domain_admin_password.user_input }}"
   become: yes
   tags:
-    - services
     - samba
 
 - name: Copy PAM modules to /etc/pam.d
@@ -95,17 +94,15 @@
     - system-login
   become: yes
   tags:
-    - services
     - samba
 
 - name: Create keytab file for the AD
   expect:
     command: /bin/bash -c "net ads keytab create -U Administrator"
     responses:
-      (.*)Enter Administrator(.)s password: "{{ domain_admin_password }}"
+      (.*)Enter Administrator(.)s password: "{{ domain_admin_password.user_input }}"
   become: yes
   tags:
-    - services
     - samba
 
 - name: Make sure the Samba & SSSD services are running
@@ -117,6 +114,4 @@
      - sssd
   become: yes
   tags:
-    - services
     - samba
- 

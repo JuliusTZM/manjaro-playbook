@@ -32,15 +32,38 @@
   become_user: '{{ user_name }}'
   become: yes
 
-- name: Add wheel group to sudoers
-  lineinfile:
+- name: Add wheel to sudoers.d
+  copy:
+    dest: '/etc/sudoers.d/10-installer'
+    content: |
+      %wheel ALL=(ALL) ALL
+    owner: root
+    group: root
+    mode: '0440'
+  become: yes
+
+- name: Comment out include dir in sudoers
+  replace:
     path: /etc/sudoers
-    state: present
-    regexp: '^%wheel\s'
-    line: '%wheel ALL=(ALL) ALL'
+    regexp: '^#includedir /etc/sudoers\.d'
+    replace: 'includedir /etc/sudoers.d'
+    after: '## (the \'#\' here does not indicate a comment)'
+    backup: yes
+  become: yes
+
+- name: Comment wheel group in sudoers
+  replace:
+    path: /etc/sudoers
+    regexp: '^ %wheel ALL=\(ALL\) ALL'
+    replace: '# %wheel ALL=(ALL) ALL'
+    after: '## Uncomment to allow members of group wheel to execute any command'
+    backup: yes
+  become: yes
 
 - name: Add the user to wheel group
   user:
-    name: {{ user_name }}
+    name: "{{ user_name }}"
     groups: wheel
     append: yes
+  become: yes
+
