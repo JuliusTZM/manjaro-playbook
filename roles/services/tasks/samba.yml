@@ -74,7 +74,7 @@
   expect:
     command: /bin/bash -c "/usr/bin/net ads join -U Administrator"
     responses:
-      (.*)Enter Administrator(.)s password: "{{ domain_admin_password.user_input }}"
+      '(.*)Enter Administrator(.)s password(.*)': '{{ domain_admin_password.user_input }}'
   become: yes
   tags:
     - samba
@@ -83,7 +83,7 @@
   expect:
     command: /bin/bash -c "kinit administrator@{{ domain|upper }}"
     responses:
-      (.*)Password for administrator@{{ domain|upper }}: "{{ domain_admin_password.user_input }}"
+      '(.*)Password for administrator@(.*)' : '{{ domain_admin_password.user_input }}'
   become: yes
   tags:
     - samba
@@ -92,7 +92,7 @@
   expect:
     command: /bin/bash -c "net ads keytab create -U Administrator"
     responses:
-      (.*)Enter Administrator(.)s password: "{{ domain_admin_password.user_input }}"
+      '(.*)Enter Administrator(.)s password(.*)' : '{{ domain_admin_password.user_input }}'
   become: yes
   tags:
     - samba
