@@ -42,15 +42,6 @@
     mode: '0440'
   become: yes
 
-- name: Comment out include dir in sudoers
-  replace:
-    path: /etc/sudoers
-    regexp: '^#includedir /etc/sudoers\.d'
-    replace: 'includedir /etc/sudoers.d'
-    after: '## (the \'#\' here does not indicate a comment)'
-    backup: yes
-  become: yes
-
 - name: Comment wheel group in sudoers
   replace:
     path: /etc/sudoers
